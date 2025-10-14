@@ -1,0 +1,17 @@
+Flask==3.1.0
+joblib==1.4.2
+mlflow==2.19.0
+numpy==1.26.4
+pandas==2.2.3
+scikit-learn==1.5.1
+gunicorn==23.0.0
+requests==2.32.3
+uvicorn==0.34.0
+waitress==2.1.2
+cloudpickle==3.1.0
+imbalanced-learn==0.12.4
+psutil==5.9.0
+scipy==1.14.1
+lightgbm==4.5.0
+threadpoolctl==3.5.0
+pytest==8.3.4

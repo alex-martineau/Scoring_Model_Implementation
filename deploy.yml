@@ -1,0 +1,47 @@
+name: Build and Deploy to Heroku
+
+on:
+  push:
+    branches:
+      - main  # Déclenche l'action sur un push vers la branche 'main'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.10'  # Version Python spécifiée dans runtime.txt
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run unit tests
+        run: |
+          source venv/bin/activate
+          pytest
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-test  # Déploie uniquement après avoir réussi les tests
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Login to Heroku
+        run: echo "${{ secrets.HRKU-bc38ce3a-5ac3-4b01-9605-7cb6fc4b8416 }}" | docker login --username=_ --password-stdin registry.heroku.com
+
+      - name: Deploy to Heroku
+        run: |
+          heroku container:push web --app ${{ secrets.my-scoring-app }}
+          heroku container:release web --app ${{ secrets.my-scoring-app }}
