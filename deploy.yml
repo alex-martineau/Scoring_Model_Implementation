@@ -37,11 +37,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
+     
       - name: Login to Heroku
-        run: echo "${{ secrets.HRKU-bc38ce3a-5ac3-4b01-9605-7cb6fc4b8416 }}" | docker login --username=_ --password-stdin registry.heroku.com
-
+        run: echo "${{ secrets.HEROKU_API_KEY }}" | docker login --username=_ --password-stdin registry.heroku.com
+        
       - name: Deploy to Heroku
         run: |
           heroku container:push web --app ${{ secrets.my-scoring-app }}
+
           heroku container:release web --app ${{ secrets.my-scoring-app }}
